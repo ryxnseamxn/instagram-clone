@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import Form from "./components/form/form.jsx"
 
 function App() {
   const [message, setMessage] = useState("");
@@ -13,6 +14,7 @@ function App() {
   return (
     <div className="App">
       <h1>{message}</h1>
+      <h2><Form /></h2>
     </div>
   );
 }
