@@ -1,13 +1,16 @@
 const express = require('express');
 const cors = require('cors'); 
+const db = require('./connection/connection'); 
 
 const app = express(); 
 
 app.use(cors()); 
 app.use(express.json()); 
 
-app.get('/message', (req, res) => {
+app.get('/message', async (req, res) => {
     res.json({message: "Hello, world!"}); 
+    let result = await db.getUsers(); 
+    console.log(result); 
 });
 
 app.listen(8000, () => {
