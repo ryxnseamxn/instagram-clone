@@ -1,6 +1,6 @@
 const sql = require("mssql"); 
 
-var config = {
+let config = {
     "user": "sa", 
     "password": "DB_Password", 
     "server": "127.0.0.1", 
@@ -20,7 +20,7 @@ sql.connect(config, err => {
 
 const getUsers = async () => {
     try {
-        const result = await sql.query`SELECT * FROM dbo.users`;
+        const result = await sql.query(`SELECT * FROM dbo.users`);
         return result.recordset;
     } catch (err) {
         console.error(err);
@@ -28,6 +28,22 @@ const getUsers = async () => {
     }
 };
 
+const addUser = async (username, password, email) => {
+    try {
+        const result = await sql.query(`
+            INSERT INTO dbo.users (username, password, email)
+            VALUES ('${username}', '${password}', '${email}')
+        `);
+        
+        console.log(`User ${username} added successfully!`);
+    } catch (err) {
+        console.error('Error adding user:', err);
+        throw err;
+    }
+};
+
 module.exports = {
     getUsers,
+    addUser, 
+
 };
