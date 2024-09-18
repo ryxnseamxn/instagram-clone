@@ -13,6 +13,17 @@ app.get('/message', async (req, res) => {
     console.log(result); 
 });
 
+app.post('/addUser', async (req, res) => {
+    const { username, password, email } = req.body;
+
+    try {
+        await db.addUser(username, password, email);
+        res.status(200).json({ message: 'User added successfully!' });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to add user' });
+    }
+});
+
 app.listen(8000, () => {
     console.log(`Server is running on port 8000.`);
 }); 

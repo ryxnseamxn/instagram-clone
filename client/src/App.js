@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Form from "./components/form/form.jsx"
+import AddUserForm from "./components/form/addUserForm.jsx";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -15,6 +16,7 @@ function App() {
     <div className="App">
       <h1>{message}</h1>
       <h2><Form /></h2>
+      <h2><AddUserForm /></h2>
     </div>
   );
 }
