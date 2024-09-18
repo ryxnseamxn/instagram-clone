@@ -17,7 +17,7 @@ app.post('/addUser', async (req, res) => {
     const { username, password, email } = req.body;
 
     try {
-        await addUser(username, password, email);
+        await db.addUser(username, password, email);
         res.status(200).json({ message: 'User added successfully!' });
     } catch (err) {
         res.status(500).json({ error: 'Failed to add user' });

@@ -29,12 +29,12 @@ const getUsers = async () => {
 };
 
 const addUser = async (username, password, email) => {
+    console.log('AddUser');
     try {
-        const result = await sql.query(`
+        await sql.query(`
             INSERT INTO dbo.users (username, password, email)
             VALUES ('${username}', '${password}', '${email}')
         `);
-        
         console.log(`User ${username} added successfully!`);
     } catch (err) {
         console.error('Error adding user:', err);
