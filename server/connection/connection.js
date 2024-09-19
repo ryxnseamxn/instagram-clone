@@ -42,8 +42,23 @@ const addUser = async (username, password, email) => {
     }
 };
 
+const addPost = async (username, password, email) => {
+
+};
+
+const getUserIdByUsername = async (username) => {
+    try{
+        const result = await sql.query(`SELECT dbo.users.userID FROM dbo.users WHERE username='${username}'`); 
+        return result.recordset; 
+    }catch(err){
+        console.error('Error getting userID by username', err)
+        throw err; 
+    }
+}
+
 module.exports = {
     getUsers,
     addUser, 
-
+    getUserIdByUsername,
+    
 };
