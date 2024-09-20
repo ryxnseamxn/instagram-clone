@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const AddPostForm = () => {
     const [username, setUsername] = useState(''); 
+    const [caption, setCaption] = useState(''); 
 
     const handleSubmit = async (e) => {
         e.preventDefault(); 
@@ -12,7 +13,8 @@ const AddPostForm = () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    username
+                    username,
+                    caption
                 }),
             })
             if (response.ok) {
@@ -37,6 +39,15 @@ const AddPostForm = () => {
                 value={username}
                 onChange={(e)=>setUsername(e.target.value)}
                 required
+                />
+            </div>
+            <div>
+                <label htmlFor='caption'>Caption</label>
+                <input 
+                id='caption'
+                type='text'
+                value={caption}
+                onChange={(e)=>setCaption(e.target.value)}
                 />
             </div>
             <button type='submit'>Add Post</button>
