@@ -24,14 +24,9 @@ app.post('/addUser', async (req, res) => {
 });
 
 app.post('/addPost', async (req, res) => {
-    const { username } = req.body;
+    const { username, caption } = req.body;
     try{
-        const result = await db.getUserIdByUsername(username); 
-        if(!result){
-            console.error('Error adding user', err);
-            throw error; 
-        }
-        console.log(result[0].userID);
+        await db.addPost(username, caption)
         res.status(200).json({ message: 'Post added successfully!' });
     }catch (err){
         res.status(500).json({ error: 'Failed to add post' });

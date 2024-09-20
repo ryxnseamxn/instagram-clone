@@ -42,14 +42,27 @@ const addUser = async (username, password, email) => {
     }
 };
 
-const addPost = async (username, password, email) => {
-
+const addPost = async (username, caption) => {
+    let userID = await getUserIdByUsername(username); 
+    if(!userID) {
+        console.error('User not found', err)
+        throw new Error('User not found'); 
+    }
+    try{
+        await sql.query(`
+            INSERT INTO dbo.posts (UserID, Username, Caption)
+            VALUES ('${userID}', '${username}', '${caption}')
+        `)
+    }catch(err){
+        console.error('Error adding post', err)
+        throw err;         
+    }
 };
 
 const getUserIdByUsername = async (username) => {
     try{
         const result = await sql.query(`SELECT dbo.users.userID FROM dbo.users WHERE username='${username}'`); 
-        return result.recordset; 
+        return result.recordset[0].userID; 
     }catch(err){
         console.error('Error getting userID by username', err)
         throw err; 
@@ -60,5 +73,6 @@ module.exports = {
     getUsers,
     addUser, 
     getUserIdByUsername,
-    
+    addPost,
+
 };
