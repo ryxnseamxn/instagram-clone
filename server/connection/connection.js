@@ -59,6 +59,24 @@ const addPost = async (username, caption) => {
     }
 };
 
+const addFollower = async (follower, following) => {
+    let followerID = await getUserIdByUsername(follower); 
+    let followingID = await getUserIdByUsername(following); 
+    if(!followerID || !followingID){
+        console.error('User(s) not found', err)
+        throw new Error('User(s) not found'); 
+    }
+    try {
+        await sql.query(`
+            INSERT INTO dbo.Following (FollowerID, FollowingID)
+            VALUES ('${followerID}', '${followingID}')
+        `)
+    }catch (err){
+        console.error('Error adding follower', err)
+        throw err;         
+    }   
+}
+
 const getUserIdByUsername = async (username) => {
     try{
         const result = await sql.query(`SELECT dbo.users.userID FROM dbo.users WHERE username='${username}'`); 
@@ -74,5 +92,6 @@ module.exports = {
     addUser, 
     getUserIdByUsername,
     addPost,
+    addFollower, 
 
 };

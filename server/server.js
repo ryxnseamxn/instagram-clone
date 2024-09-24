@@ -33,6 +33,16 @@ app.post('/addPost', async (req, res) => {
     }
 })
 
+app.post('/addFollower', async (req, res) => {
+    const { follower, following} = req.body; 
+    try{
+        await db.addFollower(follower, following)
+        res.status(200).json({ message: 'Follower added successfully!' });
+    }catch (err){
+        res.status(500).json({ error: 'Failed to add Follower' });
+    }
+})
+
 app.listen(8000, () => {
     console.log(`Server is running on port 8000.`);
 }); 

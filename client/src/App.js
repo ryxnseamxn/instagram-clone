@@ -3,6 +3,7 @@ import "./App.css";
 import Form from "./components/form/form.jsx"
 import AddUserForm from "./components/form/addUserForm.jsx";
 import AddPostForm from "./components/form/addPostForm.jsx";
+import AddFollowerForm from "./components/form/addFollowerForm.jsx";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -19,6 +20,7 @@ function App() {
       <h2><Form /></h2>
       <h2><AddUserForm /></h2>
       <h2><AddPostForm /></h2>
+      <h2><AddFollowerForm /></h2>
     </div>
   );
 }
