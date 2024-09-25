@@ -28,6 +28,16 @@ const getUsers = async () => {
     }
 };
 
+const getPostsForUser = async (username) => {
+    try{
+        const result = await sql.query(`SELECT * FROM dbo.Posts WHERE Username = ${username}`);
+        return result.recordset; 
+    }catch(err){
+        console.log(err);
+        throw err; 
+    }
+}
+
 const addUser = async (username, password, email) => {
     console.log('AddUser');
     try {
