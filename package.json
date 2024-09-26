@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "react-router-dom": "^6.26.2",
     "validate": "^5.2.0"
   }
 }
