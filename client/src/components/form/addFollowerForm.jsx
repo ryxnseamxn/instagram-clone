@@ -18,7 +18,7 @@ const AddFollowerForm = () => {
                 }),
             })
             if (response.ok) {
-                const data = await response.json();
+                await response.json();
                 alert('follower added successfully!');
               } else {
                 alert('Error adding follower.');
