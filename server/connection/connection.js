@@ -30,7 +30,7 @@ const getUsers = async () => {
 
 const getPostsForUser = async (username) => {
     try{
-        const result = await sql.query(`SELECT * FROM dbo.Posts WHERE Username = ${username}`);
+        const result = await sql.query(`SELECT * FROM dbo.Posts WHERE Username = '${username}'`);
         return result.recordset; 
     }catch(err){
         console.log(err);
@@ -103,5 +103,5 @@ module.exports = {
     getUserIdByUsername,
     addPost,
     addFollower, 
-
+    getPostsForUser
 };
