@@ -7,7 +7,7 @@ import {
 import "./index.css";
 
 import App from "./App"; 
-import Main from "./components/main";
+import Profile from "./components/views/profile";
 
 const router = createBrowserRouter([
   {
@@ -15,8 +15,8 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "/Home",
-    element: <Main />
+    path: "/profile",
+    element: <Profile />
   }
 ]);
 

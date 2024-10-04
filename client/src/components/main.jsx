@@ -2,7 +2,7 @@ import { React } from 'react';
 
 function Main (){
     return (
-        <h2>Hello World!</h2>
+        <h2>Hello world!</h2>
     )
 }
 export default Main; 

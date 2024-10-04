@@ -12,6 +12,13 @@ app.get('/message', async (req, res) => {
     // let result = await db.getUsers(); 
 });
 
+app.get('/posts', async (req, res) => {
+    const username = req.query.username;
+    const userPosts = await db.getPostsForUser(username);
+  
+    res.json(userPosts);
+  });
+
 app.post('/addUser', async (req, res) => {
     const { username, password, email } = req.body;
 
