@@ -26,7 +26,9 @@ const Profile = () => {
       <h1>Your Posts</h1>
       {posts.length > 0 ? (
         posts.map(post => (
-          <div key={post.id}>{post.content}</div>
+            <div key={post.id}>
+            <pre>{JSON.stringify(post, null, 2)}</pre>
+            </div>
         ))
       ) : (
         <p>No posts found.</p>
