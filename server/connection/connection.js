@@ -52,20 +52,27 @@ const addUser = async (username, password, email) => {
     }
 };
 
-const addPost = async (username, caption) => {
-    let userID = await getUserIdByUsername(username); 
-    if(!userID) {
-        console.error('User not found', err)
-        throw new Error('User not found'); 
+const addPost = async (username, caption, imageBuffer) => {
+    let userID = await getUserIdByUsername(username);
+    if (!userID) {
+        console.error('User not found');
+        throw new Error('User not found');
     }
-    try{
-        await sql.query(`
-            INSERT INTO dbo.posts (UserID, Username, Caption)
-            VALUES ('${userID}', '${username}', '${caption}')
-        `)
-    }catch(err){
-        console.error('Error adding post', err)
-        throw err;         
+
+    try {
+        const request = new sql.Request();
+        request.input('UserID', sql.UniqueIdentifier, userID);
+        request.input('Username', sql.NVarChar(50), username); 
+        request.input('Caption', sql.NVarChar(255), caption); 
+        request.input('Image', sql.VarBinary(sql.MAX), imageBuffer); // 
+
+        await request.query(`
+            INSERT INTO dbo.posts (UserID, Username, Caption, Image)
+            VALUES (@UserID, @Username, @Caption, @Image)
+        `);
+    } catch (err) {
+        console.error('Error adding post', err);
+        throw err;
     }
 };
 

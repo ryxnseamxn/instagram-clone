@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors'); 
+const multer = require("multer");
 const db = require('./connection/connection'); 
+const upload = multer({ storage: multer.memoryStorage() });
 
 const app = express(); 
 
@@ -30,10 +32,10 @@ app.post('/addUser', async (req, res) => {
     }
 });
 
-app.post('/addPost', async (req, res) => {
+app.post('/addPost', upload.single("image"), async (req, res) => {
     const { username, caption } = req.body;
     try{
-        await db.addPost(username, caption)
+        await db.addPost(username, caption, req.file.buffer)
         res.status(200).json({ message: 'Post added successfully!' });
     }catch (err){
         res.status(500).json({ error: 'Failed to add post' });
