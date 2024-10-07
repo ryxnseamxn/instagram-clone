@@ -3,20 +3,23 @@ import React, { useState } from 'react';
 const AddPostForm = () => {
     const [username, setUsername] = useState(''); 
     const [caption, setCaption] = useState(''); 
+    const [image, setImage] = useState(null);
+
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault(); 
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('caption', caption);
+        formData.append('image', image);
         try{
             const response = await fetch('http://localhost:8000/addPost', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username,
-                    caption
-                }),
-            })
+                body: formData, // Send formData directly
+            });
             if (response.ok) {
                 const data = await response.json();
                 alert('post added successfully!');
@@ -30,7 +33,7 @@ const AddPostForm = () => {
     }; 
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} enctype='multipart/form-data'>
             <div>
                 <label htmlFor='username'>Username</label>
                 <input
@@ -48,6 +51,15 @@ const AddPostForm = () => {
                 type='text'
                 value={caption}
                 onChange={(e)=>setCaption(e.target.value)}
+                />
+            </div>
+            <div>
+                <label htmlFor='image'>Image</label>
+                <input 
+                    id='image'
+                    type='file'
+                    onChange={handleImageChange}
+                    required
                 />
             </div>
             <button type='submit'>Add Post</button>

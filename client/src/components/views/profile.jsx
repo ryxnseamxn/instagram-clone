@@ -25,10 +25,15 @@ const Profile = () => {
     <div>
       <h1>Your Posts</h1>
       {posts.length > 0 ? (
-        posts.map(post => (
-            <div key={post.id}>
-            <pre>{JSON.stringify(post, null, 2)}</pre>
-            </div>
+        posts.map((post, index) => (
+          <div key={index}>
+            <h2>{post.Caption}</h2>
+            <img 
+              src={`data:image/jpeg;base64,${post.Image.toString('base64')}`} 
+              alt={`Post by ${post.Username}`} 
+            />
+            <pre>{JSON.stringify(post)}</pre>
+          </div>
         ))
       ) : (
         <p>No posts found.</p>
