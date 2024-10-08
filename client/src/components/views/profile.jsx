@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const Profile = () => {
   const [posts, setPosts] = useState([]);
-  const username = 'derpster'; // Hard-coded user ID for debugging
+  const username = 'derpster'; // Hard-coded username for debugging
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -12,7 +12,7 @@ const Profile = () => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        setPosts(data);
+        setPosts(data); // Assuming data includes image paths
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -28,10 +28,15 @@ const Profile = () => {
         posts.map((post, index) => (
           <div key={index}>
             <h2>{post.Caption}</h2>
-            <img 
-              src={`data:image/jpeg;base64,${post.Image.toString('base64')}`} 
-              alt={`Post by ${post.Username}`} 
-            />
+            {post.ImagePath ? ( // Assuming 'ImagePath' contains the path
+              <img 
+                src={`http://localhost:8000/${post.ImagePath}`} // Adjust the path as necessary
+                alt={`Post by ${post.Username}`} 
+                style={{ maxWidth: '300px', maxHeight: '300px' }} // Optional: set size limits
+              />
+            ) : (
+              <p>No image available</p>
+            )}
             <pre>{JSON.stringify(post)}</pre>
           </div>
         ))

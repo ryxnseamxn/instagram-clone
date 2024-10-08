@@ -52,7 +52,7 @@ const addUser = async (username, password, email) => {
     }
 };
 
-const addPost = async (username, caption, imageBuffer) => {
+const addPost = async (username, caption, filePath) => {
     let userID = await getUserIdByUsername(username);
     if (!userID) {
         console.error('User not found');
@@ -64,7 +64,7 @@ const addPost = async (username, caption, imageBuffer) => {
         request.input('UserID', sql.UniqueIdentifier, userID);
         request.input('Username', sql.NVarChar(50), username); 
         request.input('Caption', sql.NVarChar(255), caption); 
-        request.input('Image', sql.VarBinary(sql.MAX), imageBuffer); // 
+        request.input('Image', sql.NVarChar(255), filePath); 
 
         await request.query(`
             INSERT INTO dbo.posts (UserID, Username, Caption, Image)
@@ -75,6 +75,8 @@ const addPost = async (username, caption, imageBuffer) => {
         throw err;
     }
 };
+
+
 
 const addFollower = async (follower, following) => {
     let followerID = await getUserIdByUsername(follower); 
