@@ -33,7 +33,7 @@ const AddPostForm = () => {
     }; 
 
     return (
-        <form onSubmit={handleSubmit} enctype='multipart/form-data'>
+        <form onSubmit={handleSubmit}>
             <div>
                 <label htmlFor='username'>Username</label>
                 <input

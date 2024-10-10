@@ -12,6 +12,7 @@ const Profile = () => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
+        console.log(data); 
         setPosts(data); // Assuming data includes image paths
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -23,21 +24,21 @@ const Profile = () => {
 
   return (
     <div>
-      <h1>Your Posts</h1>
+      <h1>{username}'s Posts</h1>
       {posts.length > 0 ? (
         posts.map((post, index) => (
           <div key={index}>
             <h2>{post.Caption}</h2>
-            {post.ImagePath ? ( // Assuming 'ImagePath' contains the path
+            {post.Image ? ( 
               <img 
-                src={`http://localhost:8000/${post.ImagePath}`} // Adjust the path as necessary
+                src={`http://localhost:8000/${post.Image}`}
                 alt={`Post by ${post.Username}`} 
-                style={{ maxWidth: '300px', maxHeight: '300px' }} // Optional: set size limits
+                style={{maxWidth: '300px', maxHeight: '300px'}}
               />
             ) : (
               <p>No image available</p>
             )}
-            <pre>{JSON.stringify(post)}</pre>
+            <hr/>
           </div>
         ))
       ) : (

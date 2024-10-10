@@ -1,6 +1,7 @@
-const express = require('express');
 const cors = require('cors'); 
 const multer = require("multer");
+const express = require('express');
+const path = require('path');
 const db = require('./connection/connection'); 
 
 const storage = multer.diskStorage({
@@ -20,16 +21,12 @@ const app = express();
 app.use(cors()); 
 app.use(express.json()); 
 
-app.get('/message', async (req, res) => {
-    res.json({message: "Hello, world!"}); 
-    // let result = await db.getUsers(); 
-});
+app.use('/uploads', express.static('uploads')); 
 
 app.get('/posts', async (req, res) => {
     const username = req.query.username;
     const userPosts = await db.getPostsForUser(username);
   
-    console.log(userPosts);
     res.json(userPosts);
   });
 
