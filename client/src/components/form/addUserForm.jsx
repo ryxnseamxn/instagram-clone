@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 
 const AddUserForm = () => {
-  // State for storing form values
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Function to handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the page from refreshing
+    e.preventDefault(); 
 
     try {
       const response = await fetch('http://localhost:8000/addUser', {
@@ -36,7 +34,7 @@ const AddUserForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form method="POST" action="http://localhost:8000/addUser" onsubmit="setTimeout(function () { window.location.reload(); }, 10)">
       <div>
         <label htmlFor="Username">Username:</label>
         <input

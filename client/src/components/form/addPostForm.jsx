@@ -18,7 +18,7 @@ const AddPostForm = () => {
         try{
             const response = await fetch('http://localhost:8000/addPost', {
                 method: 'POST',
-                body: formData, // Send formData directly
+                body: formData, 
             });
             if (response.ok) {
                 const data = await response.json();
