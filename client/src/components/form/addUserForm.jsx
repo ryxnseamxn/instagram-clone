@@ -49,7 +49,7 @@ const AddUserForm = () => {
       <div>
         <label htmlFor="email">Email:</label>
         <input
-        id="password"
+        id="email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
