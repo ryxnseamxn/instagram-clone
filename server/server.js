@@ -4,6 +4,7 @@ const express = require('express');
 const path = require('path');
 const db = require('./connection/connection'); 
 
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/');
@@ -20,6 +21,8 @@ const app = express();
 
 app.use(cors()); 
 app.use(express.json()); 
+app.use(express.urlencoded()); 
+
 
 app.use('/uploads', express.static('uploads')); 
 
@@ -31,8 +34,8 @@ app.get('/posts', async (req, res) => {
   });
 
 app.post('/addUser', async (req, res) => {
-    const { username, password, email } = req.body;
-
+    // const { username, email, password } = req.body;
+    console.log(req.body.password);
     try {
         await db.addUser(username, password, email);
         res.status(200).json({ message: 'User added successfully!' });
