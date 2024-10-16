@@ -26,6 +26,7 @@ const AddUserForm = () => {
       if (response.ok) {
         const data = await response.json();
         alert('User added successfully!');
+        window.location.reload(); 
       } else {
         alert('Error adding user.');
       }
