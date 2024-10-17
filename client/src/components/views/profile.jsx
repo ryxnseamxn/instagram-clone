@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 const Profile = () => {
   const [posts, setPosts] = useState([]);
+  const [followers, setFollowers] = useState(0); 
+  const [following, setFollowing] = useState(0); 
   const username = 'derpster'; // Hard-coded username for debugging
 
   useEffect(() => {
@@ -12,8 +14,10 @@ const Profile = () => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log(data); 
-        setPosts(data); // Assuming data includes image paths
+        console.log(data.followerCount); 
+        setPosts(data.userPosts); 
+        setFollowers(data.followerCount[0].count); 
+        setFollowing(data.followingCount[0].count);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -24,6 +28,8 @@ const Profile = () => {
 
   return (
     <div>
+      <h1>Followers: {followers}</h1>
+      <h1>Following: {following}</h1>
       <h1>{username}'s Posts</h1>
       {posts.length > 0 ? (
         posts.map((post, index) => (

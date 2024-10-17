@@ -26,8 +26,10 @@ app.use('/uploads', express.static('uploads'));
 app.get('/posts', async (req, res) => {
     const username = req.query.username;
     const userPosts = await db.getPostsForUser(username);
+    const followerCount = await db.getFollowersForUser(username); 
+    const followingCount = await db.getFollowingForUser(username); 
   
-    res.json(userPosts);
+    res.status(200).json({userPosts, followerCount, followingCount});
   });
 
 app.post('/addUser', async (req, res) => {

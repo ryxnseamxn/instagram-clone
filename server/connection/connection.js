@@ -38,6 +38,44 @@ const getPostsForUser = async (username) => {
     }
 }
 
+const getFollowersForUser = async (username) => {
+    try{
+        let userID = await getUserIdByUsername(username); 
+        if (!userID) {
+            console.error('User not found');
+            throw new Error('User not found');
+        }
+        const result = await sql.query(`
+            SELECT COUNT(*) as count 
+            FROM Following
+            WHERE FollowingID = '${userID}'    
+        `);
+        return result.recordset; 
+    }catch(err){
+        console.log(err); 
+        throw err;
+    }
+}
+
+const getFollowingForUser = async (username) => {
+    try{
+        let userID = await getUserIdByUsername(username); 
+        if(!userID){
+            console.error('User not found'); 
+            throw new Error('User not found'); 
+        }
+        const result = await sql.query(`
+            SELECT COUNT(*) as count 
+            FROM Following
+            WHERE FollowerID = '${userID}'    
+        `);
+        return result.recordset; 
+    }catch(err){
+        console.log(err);
+        throw err; 
+    }
+}
+
 const addUser = async (username, password, email) => {
     console.log('AddUser');
     try {
@@ -112,5 +150,8 @@ module.exports = {
     getUserIdByUsername,
     addPost,
     addFollower, 
-    getPostsForUser
+    getPostsForUser,
+    getFollowersForUser, 
+    getFollowingForUser, 
+    
 };
