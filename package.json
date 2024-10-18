@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "npm": "^10.9.0",
     "path": "^0.12.7",
     "react-router-dom": "^6.26.2",
     "validate": "^5.2.0"
