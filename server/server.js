@@ -1,6 +1,7 @@
 const cors = require('cors'); 
 const multer = require("multer");
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const path = require('path');
 const db = require('./connection/connection'); 
 
@@ -34,6 +35,17 @@ app.get('/posts', async (req, res) => {
   
     res.status(200).json({userPosts, followerCount, followingCount});
   });
+
+app.post('/login', async (req, res) => {
+    try{
+        const { username, password } = req.body;         
+        let token = jwt.sign({ username: username, password: password }, process.env.SECRET); 
+        res.status(200); 
+    }catch(err){
+        console.log(err); 
+        throw err; 
+    }
+});
 
 app.post('/addUser', async (req, res) => {
     // const { username, email, password } = req.body;
