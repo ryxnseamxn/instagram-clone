@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "dotenv": "^16.4.5",
     "jsonwebtoken": "^9.0.2",
     "npm": "^10.9.0",
     "path": "^0.12.7",
