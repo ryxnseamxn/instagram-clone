@@ -22,7 +22,6 @@ const app = express();
 
 app.use(cors()); 
 app.use(express.json()); 
-app.use(express.urlencoded()); 
 
 
 app.use('/uploads', express.static('uploads')); 
@@ -40,6 +39,8 @@ app.post('/login', async (req, res) => {
     try{
         const { username, password } = req.body;         
         let token = jwt.sign({ username: username, password: password }, process.env.SECRET); 
+        let decoded = jwt.verify(token, process.env.SECRET); 
+        console.log(decoded); 
         res.status(200); 
     }catch(err){
         console.log(err); 
