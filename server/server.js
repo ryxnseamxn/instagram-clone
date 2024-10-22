@@ -1,9 +1,12 @@
 const cors = require('cors'); 
 const multer = require("multer");
 const express = require('express');
+const cookieParser = require('cookie-parser'); 
+const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const db = require('./connection/connection'); 
+const { body, validationResult } = require("express-validator");
 
 
 const storage = multer.diskStorage({
@@ -22,7 +25,9 @@ const app = express();
 
 app.use(cors()); 
 app.use(express.json()); 
-
+app.use(cookieParser()); 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use('/uploads', express.static('uploads')); 
 
@@ -39,12 +44,10 @@ app.post('/login', async (req, res) => {
     try{
         const { username, password } = req.body;         
         let token = jwt.sign({ username: username, password: password }, process.env.SECRET); 
-        let decoded = jwt.verify(token, process.env.SECRET); 
-        console.log(decoded); 
-        res.status(200); 
+        res.cookie('token', token, { httpOnly: true });
+        res.status(200).json({ message: 'Login successful' });
     }catch(err){
-        console.log(err); 
-        throw err; 
+        res.status(500).json({ error: 'failed to login' });
     }
 });
 
