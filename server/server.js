@@ -38,7 +38,17 @@ app.get('/posts', async (req, res) => {
     const followingCount = await db.getFollowingForUser(username); 
   
     res.status(200).json({userPosts, followerCount, followingCount});
-  });
+});
+
+app.get('/logout', (req, res) => {
+    try{
+        console.log('cookie clear');    
+        res.clearCookie('token');
+        return res.status(200).json('cookie cleared'); 
+    }catch(err){
+        res.status(500).json({error: 'failed to signout'}); 
+    }
+});
 
 app.post('/login', async (req, res) => {
     try{
