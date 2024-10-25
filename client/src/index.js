@@ -9,6 +9,7 @@ import "./index.css";
 import App from "./App"; 
 import Profile from "./components/views/profile";
 import Login from "./components/views/login";
+import Logout from "./components/utls/logout";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />
+  },
+  {
+    path: "/logout",
+    element: <Logout />
   }
 ]);
 
