@@ -9,7 +9,7 @@ import "./index.css";
 import App from "./App"; 
 import Profile from "./components/views/profile";
 import Login from "./components/views/login";
-import Logout from "./components/utls/logout";
+import Logout from "./components/utils/logout";
 
 const router = createBrowserRouter([
   {
