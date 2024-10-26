@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const db = require('./connection/connection'); 
-const { body, validationResult } = require("express-validator");
 
 
 const storage = multer.diskStorage({
@@ -40,11 +39,11 @@ app.get('/posts', async (req, res) => {
     res.status(200).json({userPosts, followerCount, followingCount});
 });
 
-app.get('/logout', (req, res) => {
+app.post('/logout', (req, res) => {
     try{
-        console.log('cookie clear');    
+        console.log(JSON.stringify(req.body));
         res.clearCookie('token');
-        return res.status(200).json('cookie cleared'); 
+        res.end();
     }catch(err){
         res.status(500).json({error: 'failed to signout'}); 
     }
@@ -54,7 +53,7 @@ app.post('/login', async (req, res) => {
     try{
         const { username, password } = req.body;         
         let token = jwt.sign({ username: username, password: password }, process.env.SECRET); 
-        res.cookie('token', token, { httpOnly: true });
+        res.cookie('token', token);
         res.status(200).json({ message: 'Login successful' });
     }catch(err){
         res.status(500).json({ error: 'failed to login' });
