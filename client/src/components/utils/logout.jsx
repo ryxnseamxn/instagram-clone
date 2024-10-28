@@ -4,12 +4,11 @@ const Logout = () => {
     const handleLogout = async () => {
         try {
             const response = await fetch('http://localhost:8000/logout', {
-                method: "POST",
+                method: 'POST',
+                credentials: 'include',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'withCredentials': 'true'
-                },
-                body: document.cookie
+                    'Content-Type': 'application/json'
+                }
             });
 
             if (!response.ok) {
