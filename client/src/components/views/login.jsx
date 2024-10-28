@@ -12,9 +12,10 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
+        try {
             const response = await fetch('http://localhost:8000/login', {
                 method: 'POST', 
+                credentials: 'include',  
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -22,16 +23,17 @@ const Login = () => {
                     username, 
                     password 
                 })
-            })
-            if(response.ok){
+            });
+            
+            if(response.ok) {
                 setLoggedIn(true); 
-            }else{
+            } else {
                 alert('Login failed!');
                 window.location.reload();
             }
-        }catch(err){
+        } catch(err) {
             console.error("Error logging in", err); 
-            alert('An error has occured'); 
+            alert('An error has occurred'); 
         }
     }
 

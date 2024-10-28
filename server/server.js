@@ -22,7 +22,10 @@ const upload = multer({ storage: storage });
 
 const app = express(); 
 
-app.use(cors()); 
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
 app.use(express.json()); 
 app.use(cookieParser()); 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,23 +42,39 @@ app.get('/posts', async (req, res) => {
     res.status(200).json({userPosts, followerCount, followingCount});
 });
 
+
 app.post('/logout', (req, res) => {
-    try{
-        console.log(JSON.stringify(req.body));
-        res.clearCookie('token');
-        res.end();
-    }catch(err){
+    try {
+        console.log('endpoint reached');
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: false, // set to true if using HTTPS in production
+            sameSite: 'lax',
+            path: '/'
+        });
+            
+        res.status(200).json({ message: 'Logged out successfully' });
+    } catch(err) {
+        console.error('Logout error:', err);
         res.status(500).json({error: 'failed to signout'}); 
     }
 });
 
 app.post('/login', async (req, res) => {
-    try{
+    try {
         const { username, password } = req.body;         
         let token = jwt.sign({ username: username, password: password }, process.env.SECRET); 
-        res.cookie('token', token);
+        
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false, // set to true if using HTTPS in production
+            sameSite: 'lax',
+            path: '/'
+        });
+        
         res.status(200).json({ message: 'Login successful' });
-    }catch(err){
+    } catch(err) {
+        console.error('Login error:', err);
         res.status(500).json({ error: 'failed to login' });
     }
 });

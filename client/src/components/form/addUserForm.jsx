@@ -35,7 +35,7 @@ const AddUserForm = () => {
   };
 
   return (
-    <form method="POST" action="http://localhost:8000/addUser" onsubmit="setTimeout(function () { window.location.reload(); }, 10)">
+    <form method="POST" action="http://localhost:8000/addUser">
       <div>
         <label htmlFor="Username">Username:</label>
         <input
