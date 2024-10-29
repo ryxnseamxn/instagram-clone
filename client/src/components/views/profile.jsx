@@ -4,17 +4,20 @@ const Profile = () => {
   const [posts, setPosts] = useState([]);
   const [followers, setFollowers] = useState(0); 
   const [following, setFollowing] = useState(0); 
-  const username = 'derpster'; // Hard-coded username for debugging
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/posts?username=${username}`);
+        const response = await fetch(`http://localhost:8000/posts`,{
+          credentials: 'include'
+        });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
         console.log(data.followerCount); 
+        setUsername(data.username); 
         setPosts(data.userPosts); 
         setFollowers(data.followerCount[0].count); 
         setFollowing(data.followingCount[0].count);
@@ -24,7 +27,7 @@ const Profile = () => {
     };
 
     fetchPosts();
-  }, [username]);
+  }, []);
 
   return (
     <div>

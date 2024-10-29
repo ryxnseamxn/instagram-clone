@@ -34,12 +34,13 @@ app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads')); 
 
 app.get('/posts', async (req, res) => {
-    const username = req.query.username;
+    let token = req.cookies.token; 
+    const { username } = jwt.decode(token); 
     const userPosts = await db.getPostsForUser(username);
     const followerCount = await db.getFollowersForUser(username); 
     const followingCount = await db.getFollowingForUser(username); 
   
-    res.status(200).json({userPosts, followerCount, followingCount});
+    res.status(200).json({username, userPosts, followerCount, followingCount});
 });
 
 
@@ -67,7 +68,7 @@ app.post('/login', async (req, res) => {
         
         res.cookie('token', token, {
             httpOnly: true,
-            secure: false, // set to true if using HTTPS in production
+            secure: false, 
             sameSite: 'lax',
             path: '/'
         });
