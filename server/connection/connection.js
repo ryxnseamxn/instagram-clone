@@ -76,6 +76,25 @@ const getFollowingForUser = async (username) => {
     }
 }
 
+const getFollowingPostsForUser = async (username) => {
+    try{
+        let userID = await getUserIdByUsername(username); 
+        if(!userID){
+            console.error('User not found'); 
+            throw new Error('User not found'); 
+        }
+        const result = await sql.query(`
+            SELECT Following.FollowingID
+            FROM Following 
+            WHERE FollowerID = '${userID}'
+        `);
+        return result.recordset; 
+    }catch(err){
+        console.log(err); 
+        throw err; 
+    }
+}
+
 const addUser = async (username, password, email) => {
     console.log('AddUser');
     try {
