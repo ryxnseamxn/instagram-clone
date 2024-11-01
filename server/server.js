@@ -26,6 +26,7 @@ app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }));
+
 app.use(express.json()); 
 app.use(cookieParser()); 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -41,6 +42,13 @@ app.get('/posts', async (req, res) => {
     const followingCount = await db.getFollowingForUser(username); 
   
     res.status(200).json({username, userPosts, followerCount, followingCount});
+});
+
+app.get('/feed', async (req, res) => {
+    // let token = req.cookies.token; 
+    // const { username } = jwt.decode(token); 
+    const { username } = req.body; 
+    await db.getFollowingPostsForUser(username); 
 });
 
 

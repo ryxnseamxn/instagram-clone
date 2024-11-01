@@ -69,6 +69,7 @@ const getFollowingForUser = async (username) => {
             FROM Following
             WHERE FollowerID = '${userID}'    
         `);
+        console.log(result.recordset); 
         return result.recordset; 
     }catch(err){
         console.log(err);
@@ -88,6 +89,10 @@ const getFollowingPostsForUser = async (username) => {
             FROM Following 
             WHERE FollowerID = '${userID}'
         `);
+        for(let record in result.recordset){
+            getPostsForUser
+            result.recordset[record].FollowingID; 
+        }
         return result.recordset; 
     }catch(err){
         console.log(err); 
@@ -172,5 +177,6 @@ module.exports = {
     getPostsForUser,
     getFollowersForUser, 
     getFollowingForUser, 
-    
+    getFollowingPostsForUser, 
+
 };
