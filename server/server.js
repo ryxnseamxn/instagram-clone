@@ -48,7 +48,8 @@ app.get('/feed', async (req, res) => {
     // let token = req.cookies.token; 
     // const { username } = jwt.decode(token); 
     const { username } = req.body; 
-    await db.getFollowingPostsForUser(username); 
+    const posts = await db.getFollowingPostsForUser(username); 
+    console.log(posts); 
 });
 
 

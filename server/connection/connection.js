@@ -85,14 +85,12 @@ const getFollowingPostsForUser = async (username) => {
             throw new Error('User not found'); 
         }
         const result = await sql.query(`
-            SELECT Following.FollowingID
-            FROM Following 
-            WHERE FollowerID = '${userID}'
-        `);
-        for(let record in result.recordset){
-            getPostsForUser
-            result.recordset[record].FollowingID; 
-        }
+            SELECT DISTINCT p.postID, p.Username, p.Caption, p.[Image]
+            FROM dbo.users u
+            JOIN dbo.Following f ON f.FollowerID = u.userID
+            JOIN dbo.posts p ON f.FollowingID = p.UserID
+            WHERE u.username = '${username}';    
+        `)
         return result.recordset; 
     }catch(err){
         console.log(err); 
