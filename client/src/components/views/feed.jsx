@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Navbar from "../navbar/navbar";
 
 const Feed = () => {
     const [posts, setPosts] = useState([]);
@@ -40,6 +41,7 @@ const Feed = () => {
                     <p>No posts found.</p>
                 )
             }
+            <Navbar />
         </div>
     )
 }

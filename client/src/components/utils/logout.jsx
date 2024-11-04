@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom'; 
+import Navbar from '../navbar/navbar';
 
 const Logout = () => {
+    const [loggedOut, setLoggedOut] = useState(false); 
+
+    if(loggedOut){
+        return <Navigate to="/login" />
+    }
+
     const handleLogout = async () => {
         try {
             const response = await fetch('http://localhost:8000/logout', {
@@ -15,15 +23,17 @@ const Logout = () => {
                 throw new Error('Logout failed');
             }
 
-            // Handle successful logout (e.g., redirecting the user or clearing user state)
-            console.log('Logged out successfully');
+            setLoggedOut(true); 
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
     return (
-        <button onClick={handleLogout}>Logout</button>
+        <div>
+            <button onClick={handleLogout}>Logout</button>
+            <Navbar />
+        </div>
     );
 };
 

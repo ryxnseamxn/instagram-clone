@@ -11,27 +11,32 @@ import Profile from "./components/views/profile";
 import Login from "./components/views/login";
 import Logout from "./components/utils/logout";
 import Feed from "./components/views/feed"; 
+import NotFound from "./components/views/404";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "",
     element: <App />,
   },
   {
-    path: "/profile",
+    path: "profile",
     element: <Profile />
   },
   {
-    path: "/login",
+    path: "login",
     element: <Login />
   },
   {
-    path: "/logout",
+    path: "logout",
     element: <Logout />
   },
   {
-    path:"/feed",
+    path:"feed",
     element: <Feed /> 
+  },
+  {
+    path:"*",
+    element: <NotFound />
   }
 ]);
 
