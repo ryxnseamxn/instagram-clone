@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Navbar from '../navbar/navbar';
 
 const Profile = () => {
   const [posts, setPosts] = useState([]);
@@ -53,6 +54,7 @@ const Profile = () => {
       ) : (
         <p>No posts found.</p>
       )}
+      <Navbar />
     </div>
   );
 };
