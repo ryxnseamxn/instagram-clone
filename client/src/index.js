@@ -10,6 +10,7 @@ import App from "./App";
 import Profile from "./components/views/profile";
 import Login from "./components/views/login";
 import Logout from "./components/utils/logout";
+import Feed from "./components/views/feed"; 
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/logout",
     element: <Logout />
+  },
+  {
+    path:"/feed",
+    element: <Feed /> 
   }
 ]);
 
