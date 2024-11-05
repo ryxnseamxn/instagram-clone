@@ -13,6 +13,7 @@ import Logout from "./components/utils/logout";
 import Feed from "./components/views/feed"; 
 import NotFound from "./components/views/404";
 import AddPost from "./components/views/addPost";
+import User from "./components/views/user";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path:"post",
     element: <AddPost />
+  }, 
+  {
+    path:"user/:username",
+    element: <User />
   }
 ]);
 
