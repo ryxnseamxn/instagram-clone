@@ -54,7 +54,6 @@ app.get('/feed', async (req, res) => {
 
 app.post('/logout', (req, res) => {
     try {
-        console.log('endpoint reached');
         res.clearCookie('token', {
             httpOnly: true,
             secure: false, // set to true if using HTTPS in production
@@ -99,8 +98,20 @@ app.post('/addUser', async (req, res) => {
     }
 });
 
-app.post('/addPost', upload.single("image"), async (req, res) => {
+app.post('/addPostForm', upload.single("image"), async (req, res) => {
     const { username, caption } = req.body;
+    try{
+        await db.addPost(username, caption, req.file.path); 
+        res.status(200).json({ message: 'Post added successfully!' });
+    }catch (err){
+        res.status(500).json({ error: 'Failed to add post' });
+    }
+});
+
+app.post('/addPost', upload.single("image"), async (req, res) => {
+    let token = req.cookies.token; 
+    const { username } = jwt.decode(token); 
+    const { caption } = req.body;
     try{
         await db.addPost(username, caption, req.file.path); 
         res.status(200).json({ message: 'Post added successfully!' });

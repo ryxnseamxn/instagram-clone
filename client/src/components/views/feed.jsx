@@ -14,7 +14,6 @@ const Feed = () => {
                     throw new Error('Network response was not OK');
                 }
                 const data = await response.json();
-                console.log(data.posts); 
                 setPosts(data.posts);
             } catch (err) {
                 console.log('Error fetching feed', err);

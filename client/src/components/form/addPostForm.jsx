@@ -16,7 +16,7 @@ const AddPostForm = () => {
         formData.append('caption', caption);
         formData.append('image', image);
         try{
-            const response = await fetch('http://localhost:8000/addPost', {
+            const response = await fetch('http://localhost:8000/addPostForm', {
                 method: 'POST',
                 body: formData, 
             });

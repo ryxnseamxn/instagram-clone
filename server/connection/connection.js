@@ -69,7 +69,6 @@ const getFollowingForUser = async (username) => {
             FROM Following
             WHERE FollowerID = '${userID}'    
         `);
-        console.log(result.recordset); 
         return result.recordset; 
     }catch(err){
         console.log(err);
