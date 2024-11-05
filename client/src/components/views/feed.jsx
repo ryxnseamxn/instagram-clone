@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../navbar/navbar";
+import { Link } from "react-router-dom";
 
 const Feed = () => {
     const [posts, setPosts] = useState([]);
@@ -22,13 +23,18 @@ const Feed = () => {
 
         fetchPosts();
     }, []);
+
     return (
         <div>
             <h1>Home</h1>
             {posts.length > 0 ?
                 posts.map((post, index) => (
                     <div key={index}>
-                        <h2>{post.Username}</h2>
+                        <h2>
+                            <Link to={`/user/${post.Username}`}>
+                                {post.Username}
+                            </Link>
+                        </h2>
                         <h2>{post.Caption}</h2>
                         <img
                             src={`http://localhost:8000/${post.Image}`}
@@ -45,4 +51,4 @@ const Feed = () => {
     )
 }
 
-export default Feed; 
+export default Feed;

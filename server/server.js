@@ -40,7 +40,7 @@ app.get('/posts', async (req, res) => {
     const userPosts = await db.getPostsForUser(username);
     const followerCount = await db.getFollowersForUser(username); 
     const followingCount = await db.getFollowingForUser(username); 
-  
+
     res.status(200).json({username, userPosts, followerCount, followingCount});
 });
 
@@ -50,6 +50,21 @@ app.get('/feed', async (req, res) => {
     const posts = await db.getFollowingPostsForUser(username); 
     res.status(200).json({posts}); 
 });
+
+app.get('/user/:username', async (req, res) => {
+    const { username } = req.params;  
+    try {
+        const userPosts = await db.getPostsForUser(username);
+        const followerCount = await db.getFollowersForUser(username); 
+        const followingCount = await db.getFollowingForUser(username); 
+
+        res.status(200).json({ userPosts, followerCount, followingCount });
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 
 
 app.post('/logout', (req, res) => {
