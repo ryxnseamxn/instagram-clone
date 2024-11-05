@@ -12,6 +12,7 @@ import Login from "./components/views/login";
 import Logout from "./components/utils/logout";
 import Feed from "./components/views/feed"; 
 import NotFound from "./components/views/404";
+import AddPost from "./components/views/addPost";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
   {
     path:"*",
     element: <NotFound />
+  },
+  {
+    path:"post",
+    element: <AddPost />
   }
 ]);
 
