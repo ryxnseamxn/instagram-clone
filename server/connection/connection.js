@@ -1,13 +1,13 @@
-const sql = require("mssql"); 
+const sql = require("mssql");
 
 let config = {
-    "user": "sa", 
-    "password": "DB_Password", 
-    "server": "127.0.0.1", 
-    "database": "instagram", 
+    "user": "sa",
+    "password": "DB_Password",
+    "server": "127.0.0.1",
+    "database": "instagram",
     "options": {
         "encrypt": false,
-        "port": 1433 
+        "port": 1433
     }
 }
 
@@ -29,18 +29,18 @@ const getUsers = async () => {
 };
 
 const getPostsForUser = async (username) => {
-    try{
+    try {
         const result = await sql.query(`SELECT * FROM dbo.Posts WHERE Username = '${username}'`);
-        return result.recordset; 
-    }catch(err){
+        return result.recordset;
+    } catch (err) {
         console.log(err);
-        throw err; 
+        throw err;
     }
 }
 
 const getFollowersForUser = async (username) => {
-    try{
-        let userID = await getUserIdByUsername(username); 
+    try {
+        let userID = await getUserIdByUsername(username);
         if (!userID) {
             console.error('User not found');
             throw new Error('User not found');
@@ -50,38 +50,38 @@ const getFollowersForUser = async (username) => {
             FROM Following
             WHERE FollowingID = '${userID}'    
         `);
-        return result.recordset; 
-    }catch(err){
-        console.log(err); 
+        return result.recordset;
+    } catch (err) {
+        console.log(err);
         throw err;
     }
 }
 
 const getFollowingForUser = async (username) => {
-    try{
-        let userID = await getUserIdByUsername(username); 
-        if(!userID){
-            console.error('User not found'); 
-            throw new Error('User not found'); 
+    try {
+        let userID = await getUserIdByUsername(username);
+        if (!userID) {
+            console.error('User not found');
+            throw new Error('User not found');
         }
         const result = await sql.query(`
             SELECT COUNT(*) as count 
             FROM Following
             WHERE FollowerID = '${userID}'    
         `);
-        return result.recordset; 
-    }catch(err){
+        return result.recordset;
+    } catch (err) {
         console.log(err);
-        throw err; 
+        throw err;
     }
 }
 
 const getFollowingPostsForUser = async (username) => {
-    try{
-        let userID = await getUserIdByUsername(username); 
-        if(!userID){
-            console.error('User not found'); 
-            throw new Error('User not found'); 
+    try {
+        let userID = await getUserIdByUsername(username);
+        if (!userID) {
+            console.error('User not found');
+            throw new Error('User not found');
         }
         const result = await sql.query(`
             SELECT DISTINCT p.postID, p.Username, p.Caption, p.[Image]
@@ -90,10 +90,10 @@ const getFollowingPostsForUser = async (username) => {
             JOIN dbo.posts p ON f.FollowingID = p.UserID
             WHERE u.username = '${username}';    
         `)
-        return result.recordset; 
-    }catch(err){
-        console.log(err); 
-        throw err; 
+        return result.recordset;
+    } catch (err) {
+        console.log(err);
+        throw err;
     }
 }
 
@@ -121,9 +121,9 @@ const addPost = async (username, caption, filePath) => {
     try {
         const request = new sql.Request();
         request.input('UserID', sql.UniqueIdentifier, userID);
-        request.input('Username', sql.NVarChar(50), username); 
-        request.input('Caption', sql.NVarChar(255), caption); 
-        request.input('Image', sql.NVarChar(255), filePath); 
+        request.input('Username', sql.NVarChar(50), username);
+        request.input('Caption', sql.NVarChar(255), caption);
+        request.input('Image', sql.NVarChar(255), filePath);
 
         await request.query(`
             INSERT INTO dbo.posts (UserID, Username, Caption, Image)
@@ -138,42 +138,57 @@ const addPost = async (username, caption, filePath) => {
 
 
 const addFollower = async (follower, following) => {
-    let followerID = await getUserIdByUsername(follower); 
-    let followingID = await getUserIdByUsername(following); 
-    if(!followerID || !followingID){
+    let followerID = await getUserIdByUsername(follower);
+    let followingID = await getUserIdByUsername(following);
+    if (!followerID || !followingID) {
         console.error('User(s) not found', err)
-        throw new Error('User(s) not found'); 
+        throw new Error('User(s) not found');
     }
     try {
         await sql.query(`
             INSERT INTO dbo.Following (FollowerID, FollowingID)
             VALUES ('${followerID}', '${followingID}')
         `)
-    }catch (err){
+    } catch (err) {
         console.error('Error adding follower', err)
-        throw err;         
-    }   
+        throw err;
+    }
 }
 
 const getUserIdByUsername = async (username) => {
-    try{
-        const result = await sql.query(`SELECT dbo.users.userID FROM dbo.users WHERE username='${username}'`); 
-        return result.recordset[0].userID; 
-    }catch(err){
+    try {
+        const result = await sql.query(`SELECT dbo.users.userID FROM dbo.users WHERE username='${username}'`);
+        return result.recordset[0].userID;
+    } catch (err) {
         console.error('Error getting userID by username', err)
-        throw err; 
+        throw err;
+    }
+}
+
+const unfollowForLoggedInUser = async(username, following) => {
+    try {
+        const result = await sql.query(`
+            DELETE f
+            FROM dbo.Following f
+            INNER JOIN dbo.Users u ON u.userID = f.FollowerID
+            WHERE u.username = '${username}'
+            AND f.FollowingID = (SELECT userID FROM dbo.Users WHERE username = '${following}');
+        `);
+        return result.output(); 
+    } catch(err) {
+        console.log(err)
     }
 }
 
 module.exports = {
     getUsers,
-    addUser, 
+    addUser,
     getUserIdByUsername,
     addPost,
-    addFollower, 
+    addFollower,
     getPostsForUser,
-    getFollowersForUser, 
-    getFollowingForUser, 
-    getFollowingPostsForUser, 
+    getFollowersForUser,
+    getFollowingForUser,
+    getFollowingPostsForUser,
 
 };
