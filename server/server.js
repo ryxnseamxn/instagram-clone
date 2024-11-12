@@ -65,6 +65,10 @@ app.get('/user/:username', async (req, res) => {
     }
 });
 
+app.post('/user/:username', async (req, res) => {
+    
+})
+
 
 
 app.post('/logout', (req, res) => {
