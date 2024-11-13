@@ -165,13 +165,13 @@ const getUserIdByUsername = async (username) => {
     }
 }
 
-const unfollowForLoggedInUser = async(username, following) => {
+const unfollowForLoggedInUser = async(follower, following) => {
     try {
         const result = await sql.query(`
             DELETE f
             FROM dbo.Following f
             INNER JOIN dbo.Users u ON u.userID = f.FollowerID
-            WHERE u.username = '${username}'
+            WHERE u.username = '${follower}'
             AND f.FollowingID = (SELECT userID FROM dbo.Users WHERE username = '${following}');
         `);
         return result.output(); 
@@ -190,5 +190,5 @@ module.exports = {
     getFollowersForUser,
     getFollowingForUser,
     getFollowingPostsForUser,
-
+    unfollowForLoggedInUser
 };

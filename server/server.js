@@ -65,11 +65,16 @@ app.get('/user/:username', async (req, res) => {
     }
 });
 
-app.post('/user/:username', async (req, res) => {
-    
+app.post('/unfollow/:username', async (req, res) => {
+    try {
+        const { following } = req.params; 
+        const token = req.cookies.token; 
+        const { follower } = jwt.decode(token); 
+        await db.unfollowForLoggedInUser(follower, following); 
+    } catch (err) {
+        
+    }
 })
-
-
 
 app.post('/logout', (req, res) => {
     try {
