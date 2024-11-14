@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../navbar/navbar';
+import Unfollow from '../button/unfollow';
 
 const User = () => {
     const [posts, setPosts] = useState([]);
@@ -34,6 +35,7 @@ const User = () => {
             <h1>Followers: {followers}</h1>
             <h1>Following: {following}</h1>
             <h1>{username}'s Posts</h1>
+            <Unfollow />
             {posts.length > 0 ? (
                 posts.map((post, index) => (
                     <div key={index}>
