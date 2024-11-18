@@ -174,7 +174,7 @@ const unfollowForLoggedInUser = async(follower, following) => {
             WHERE u.username = '${follower}'
             AND f.FollowingID = (SELECT userID FROM dbo.Users WHERE username = '${following}');
         `);
-        return result.output(); 
+        return result.output; 
     } catch(err) {
         console.log(err)
     }

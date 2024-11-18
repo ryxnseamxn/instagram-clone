@@ -65,14 +65,15 @@ app.get('/user/:username', async (req, res) => {
     }
 });
 
-app.post('/unfollow/:username', async (req, res) => {
+app.post('/unfollow/:following', async (req, res) => {
     try {
         const { following } = req.params; 
         const token = req.cookies.token; 
-        const { follower } = jwt.decode(token); 
-        await db.unfollowForLoggedInUser(follower, following); 
+        const { username } = jwt.decode(token); 
+        const result = await db.unfollowForLoggedInUser(username, following);         
+        res.status(200).json({ message: result });
     } catch (err) {
-        
+        res.status(500).json({ message: 'Server error' });
     }
 })
 

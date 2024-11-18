@@ -9,24 +9,24 @@ const User = () => {
     const [following, setFollowing] = useState(0);
     const { username } = useParams();
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch(`http://localhost:8000/user/${username}`, {
-                    credentials: 'include'
-                });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setPosts(data.userPosts);
-                setFollowers(data.followerCount[0].count);
-                setFollowing(data.followingCount[0].count);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
+    const fetchUserData = async () => {
+        try {
+            const response = await fetch(`http://localhost:8000/user/${username}`, {
+                credentials: 'include'
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        };
+            const data = await response.json();
+            setPosts(data.userPosts);
+            setFollowers(data.followerCount[0].count);
+            setFollowing(data.followingCount[0].count);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
 
+    useEffect(() => {
         fetchUserData();
     }, [username]);
 
@@ -34,8 +34,8 @@ const User = () => {
         <div>
             <h1>Followers: {followers}</h1>
             <h1>Following: {following}</h1>
-            <h1>{username}'s Posts</h1>
-            <Unfollow />
+            <h1>{ username }'s Posts</h1>
+            <Unfollow username={ username }/>
             {posts.length > 0 ? (
                 posts.map((post, index) => (
                     <div key={index}>
