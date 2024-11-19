@@ -75,7 +75,19 @@ app.post('/unfollow/:following', async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-})
+});
+
+app.post('/follow/:following', async (req, res) => {
+    try {
+        const { following } = req.params; 
+        const token = req.cookies.token; 
+        const { username } = jwt.decode(token); 
+        const result = await db.followForLoggedInUser(username, following);
+        res.status(200).json({ message: result });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });                
+    }
+});
 
 app.post('/logout', (req, res) => {
     try {
