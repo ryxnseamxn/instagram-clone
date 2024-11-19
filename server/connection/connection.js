@@ -9,7 +9,7 @@ let config = {
         "encrypt": false,
         "port": 1433
     }
-}
+};
 
 sql.connect(config, err => {
     if (err) {
@@ -36,7 +36,7 @@ const getPostsForUser = async (username) => {
         console.log(err);
         throw err;
     }
-}
+};
 
 const getFollowersForUser = async (username) => {
     try {
@@ -55,7 +55,7 @@ const getFollowersForUser = async (username) => {
         console.log(err);
         throw err;
     }
-}
+};
 
 const getFollowingForUser = async (username) => {
     try {
@@ -74,7 +74,7 @@ const getFollowingForUser = async (username) => {
         console.log(err);
         throw err;
     }
-}
+};
 
 const getFollowingPostsForUser = async (username) => {
     try {
@@ -95,7 +95,7 @@ const getFollowingPostsForUser = async (username) => {
         console.log(err);
         throw err;
     }
-}
+};
 
 const addUser = async (username, password, email) => {
     console.log('AddUser');
@@ -153,8 +153,7 @@ const addFollower = async (follower, following) => {
         console.error('Error adding follower', err)
         throw err;
     }
-}
-
+};
 const getUserIdByUsername = async (username) => {
     try {
         const result = await sql.query(`SELECT dbo.users.userID FROM dbo.users WHERE username='${username}'`);
@@ -163,9 +162,9 @@ const getUserIdByUsername = async (username) => {
         console.error('Error getting userID by username', err)
         throw err;
     }
-}
+};
 
-const unfollowForLoggedInUser = async(follower, following) => {
+const unfollowForLoggedInUser = async (follower, following) => {
     try {
         const result = await sql.query(`
             DELETE f
@@ -178,7 +177,21 @@ const unfollowForLoggedInUser = async(follower, following) => {
     } catch(err) {
         console.log(err)
     }
-}
+};
+
+const followForLoggedInUser = async (follower, following) => {
+    try {
+        const result = await sql.query(`
+            INSERT INTO dbo.Following (FollowerID, FollowingID)
+            SELECT u1.userID AS FollowerID, u2.userID AS FollowingID
+            FROM dbo.Users u1, dbo.Users u2
+            WHERE u1.username = '${follower}' AND u2.username = '${following}';    
+        `)
+        return result.output;
+    } catch (err) {
+        console.log(err);       
+    }
+};
 
 module.exports = {
     getUsers,
@@ -190,5 +203,6 @@ module.exports = {
     getFollowersForUser,
     getFollowingForUser,
     getFollowingPostsForUser,
-    unfollowForLoggedInUser
+    unfollowForLoggedInUser,
+    followForLoggedInUser
 };
