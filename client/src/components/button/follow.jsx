@@ -10,7 +10,7 @@ const Follow = ({ username, onUpdate }) => {
     }
     return (
         <div>
-            <button onClick={handleSubmit}>
+            <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" onClick={handleSubmit}>
                 Follow
             </button>
         </div>
