@@ -65,6 +65,18 @@ app.get('/user/:username', async (req, res) => {
     }
 });
 
+app.get('/search/search', async (req, res) => {
+    const searchInput = req.query.query || '';
+    try {
+        const results = await db.searchUsers(searchInput);
+        res.status(200).json(results);
+    } catch (err) {
+        console.error('Error in search endpoint:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+
 app.post('/unfollow/:following', async (req, res) => {
     try {
         const { following } = req.params; 

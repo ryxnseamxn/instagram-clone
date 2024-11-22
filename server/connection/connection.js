@@ -193,6 +193,23 @@ const followForLoggedInUser = async (follower, following) => {
     }
 };
 
+const searchUsers = async (searchInput) => {
+    try {
+        const request = new sql.Request();
+        request.input('searchInput', sql.NVarChar, `%${searchInput}%`);
+        const result = await request.query(`
+            SELECT TOP (10) * 
+            FROM dbo.users 
+            WHERE username LIKE @searchInput 
+            ORDER BY username
+        `);
+        return result.recordset;
+    } catch (err) {
+        console.error('Error in searchUsers query:', err);
+        throw err;
+    }
+};
+
 module.exports = {
     getUsers,
     addUser,
@@ -204,5 +221,6 @@ module.exports = {
     getFollowingForUser,
     getFollowingPostsForUser,
     unfollowForLoggedInUser,
-    followForLoggedInUser
+    followForLoggedInUser,
+    searchUsers
 };
