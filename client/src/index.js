@@ -14,6 +14,7 @@ import Feed from "./components/views/feed";
 import NotFound from "./components/views/404";
 import AddPost from "./components/views/addPost";
 import User from "./components/views/user";
+import SearchPage from "./components/views/search";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
   {
     path:"user/:username",
     element: <User />
+  },
+  {
+    path:"search",
+    element: <SearchPage />
   }
 ]);
 

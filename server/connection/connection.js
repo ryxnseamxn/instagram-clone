@@ -185,8 +185,15 @@ const followForLoggedInUser = async (follower, following) => {
             INSERT INTO dbo.Following (FollowerID, FollowingID)
             SELECT u1.userID AS FollowerID, u2.userID AS FollowingID
             FROM dbo.Users u1, dbo.Users u2
-            WHERE u1.username = '${follower}' AND u2.username = '${following}';    
-        `)
+            WHERE u1.username = '${follower}' 
+            AND u2.username = '${following}'
+            AND NOT EXISTS (
+                SELECT 1 
+                FROM dbo.Following f
+                WHERE f.FollowerID = u1.userID 
+                AND f.FollowingID = u2.userID
+            );
+        `);
         return result.output;
     } catch (err) {
         console.log(err);       

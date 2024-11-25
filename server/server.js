@@ -65,8 +65,8 @@ app.get('/user/:username', async (req, res) => {
     }
 });
 
-app.get('/search/search', async (req, res) => {
-    const searchInput = req.query.query || '';
+app.get('/search', async (req, res) => {
+    const { searchInput } = req.query;
     try {
         const results = await db.searchUsers(searchInput);
         res.status(200).json(results);
