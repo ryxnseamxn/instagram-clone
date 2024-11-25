@@ -18,7 +18,7 @@ const AddPost = () => {
             const response = await fetch('http://localhost:8000/addPost', {
                 credentials: "include",
                 method: 'POST',
-                body: formData, 
+                body: formData,  
             });
             if (response.ok) {
                 const data = await response.json();
