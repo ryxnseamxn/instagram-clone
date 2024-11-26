@@ -1,40 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../navbar/navbar';
+import Delete from '../button/delete';
 
 const Profile = () => {
     const [posts, setPosts] = useState([]);
     const [followers, setFollowers] = useState(0);
     const [following, setFollowing] = useState(0);
     const [username, setUsername] = useState('');
+    const [refresh, setRefresh] = useState(0); // Add refresh counter
+
+    const fetchPosts = async () => {
+        try {
+            const response = await fetch(`http://localhost:8000/posts`, {
+                credentials: 'include'
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            setUsername(data.username);
+            setPosts(data.userPosts);
+            setFollowers(data.followerCount[0].count);
+            setFollowing(data.followingCount[0].count);
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const response = await fetch(`http://localhost:8000/posts`, {
-                    credentials: 'include'
-                });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setUsername(data.username);
-                setPosts(data.userPosts);
-                setFollowers(data.followerCount[0].count);
-                setFollowing(data.followingCount[0].count);
-            } catch (error) {
-                console.error('Error fetching posts:', error);
-            }
-        };
-
         fetchPosts();
-    }, []);
+    }, [refresh]); // Only depend on refresh counter
+
+    const handleDelete = () => {
+        setRefresh(prev => prev + 1); // Increment refresh counter instead of directly calling fetchPosts
+    };
 
     return (
         <div className="min-h-screen bg-white pb-20">
             <div className="max-w-sm mx-auto px-4 py-8">
                 <div className="flex flex-col items-center mb-8">
                     <h1 className="text-xl font-semibold mb-4">{username}</h1>
-                    
 
                     <div className="flex gap-8">
                         <div className="text-center">
@@ -64,13 +69,12 @@ const Profile = () => {
                                     />
                                 </div>
 
-                                <div className="p-4 max-w-xs mx-auto">
-                                    <p>
-                                        <span className="font-semibold mr-2">
-                                            {username}
-                                        </span>
-                                        {post.Caption}
-                                    </p>
+                                <div className="flex flex-row items-center p-4 max-w-xs mx-auto">
+                                    <div className="flex-1 flex items-center space-x-2">
+                                        <span className="font-semibold">{username}</span>
+                                        <span>{post.Caption}</span>
+                                    </div>
+                                    <Delete postId={post.PostID} onUpdate={handleDelete} className="cursor-pointer" />
                                 </div>
                             </article>
                         ))

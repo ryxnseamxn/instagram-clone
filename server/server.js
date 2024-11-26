@@ -179,6 +179,16 @@ app.post('/addFollower', async (req, res) => {
     }
 })
 
+app.delete('/delete/:post', async (req, res) => {
+    const { post } = req.params; 
+    try {
+        await db.deletePost(post); 
+        res.status(200).json({ message: 'Post deleted successfully'}); 
+    } catch (err) {
+        res.status(500).json({ error: 'failed to delete' });
+    }
+});
+
 app.listen(8000, () => {
     console.log(`Server is running on port 8000.`);
 }); 
