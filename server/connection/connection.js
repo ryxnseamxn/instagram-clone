@@ -217,6 +217,19 @@ const searchUsers = async (searchInput) => {
     }
 };
 
+const deletePost = async (postID) => {
+    try {
+        const response = await sql.query(`
+            DELETE FROM dbo.Posts 
+            WHERE PostID = '${postID}';     
+        `); 
+        return response; 
+    } catch (err) {
+        console.error('Error deleting post: ', err)
+        throw err; 
+    }
+}; 
+
 module.exports = {
     getUsers,
     addUser,
@@ -229,5 +242,6 @@ module.exports = {
     getFollowingPostsForUser,
     unfollowForLoggedInUser,
     followForLoggedInUser,
-    searchUsers
+    searchUsers, 
+    deletePost
 };
