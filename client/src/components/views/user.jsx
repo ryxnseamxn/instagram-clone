@@ -36,31 +36,61 @@ const User = () => {
     };
 
     return (
-        <div>
-            <h1>Followers: {followers}</h1>
-            <h1>Following: {following}</h1>
-            <h1>{username}'s Posts</h1>
-            <Unfollow username={username} onUpdate={handleFollowUpdate} />
-            <Follow username={username} onUpdate={handleFollowUpdate} />
-            {posts.length > 0 ? (
-                posts.map((post, index) => (
-                    <div key={index}>
-                        <h2>{post.Caption}</h2>
-                        {post.Image ? (
-                            <img
-                                src={`http://localhost:8000/${post.Image}`}
-                                alt={`Post by ${post.Username}`}
-                                style={{ maxWidth: '300px', maxHeight: '300px' }}
-                            />
-                        ) : (
-                            <p>No image available</p>
-                        )}
-                        <hr />
+        <div className="min-h-screen bg-white pb-20">
+            <div className="max-w-sm mx-auto px-4 py-8">
+                <div className="flex flex-col items-center mb-8">
+                    <h1 className="text-xl font-semibold mb-4">{username}</h1>
+                    
+                    <div className="flex gap-2 mb-6">
+                        <Follow username={username} onUpdate={handleFollowUpdate} />
+                        <Unfollow username={username} onUpdate={handleFollowUpdate} />
                     </div>
-                ))
-            ) : (
-                <p>No posts found.</p>
-            )}
+                    
+                    <div className="flex gap-8">
+                        <div className="text-center">
+                            <span className="font-semibold">{posts.length}</span>
+                            <p className="text-sm">posts</p>
+                        </div>
+                        <div className="text-center">
+                            <span className="font-semibold">{followers}</span>
+                            <p className="text-sm">followers</p>
+                        </div>
+                        <div className="text-center">
+                            <span className="font-semibold">{following}</span>
+                            <p className="text-sm">following</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="border-t border-gray-200">
+                    {posts.length > 0 ? (
+                        posts.map((post, index) => (
+                            <article key={index} className="border-b border-gray-200 pb-4 mb-4">
+                                <div className="relative aspect-square bg-black max-w-xs mx-auto">
+                                    <img
+                                        src={`http://localhost:8000/${post.Image}`}
+                                        alt={`Post by ${username}`}
+                                        className="w-full h-full object-contain"
+                                    />
+                                </div>
+
+                                <div className="p-4 max-w-xs mx-auto">
+                                    <p>
+                                        <span className="font-semibold mr-2">
+                                            {username+':'}
+                                        </span>
+                                        {post.Caption}
+                                    </p>
+                                </div>
+                            </article>
+                        ))
+                    ) : (
+                        <div className="flex items-center justify-center h-64">
+                            <p className="text-gray-400">No posts found.</p>
+                        </div>
+                    )}
+                </div>
+            </div>
             <Navbar />
         </div>
     );
