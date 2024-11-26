@@ -10,11 +10,14 @@ const Unfollow = ({ username, onUpdate }) => {
     }
     return (
         <div>
-            <button onClick={handleSubmit}>
+            <button 
+                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                onClick={handleSubmit}
+            >
                 Unfollow
             </button>
         </div>
     )
 }
 
-export default Unfollow; 
+export default Unfollow;
