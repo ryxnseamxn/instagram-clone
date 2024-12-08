@@ -7,6 +7,7 @@ import {
 import "./index.css";
 
 import App from "./App"; 
+import { Navigate } from "react-router-dom";
 import Profile from "./components/views/profile";
 import Login from "./components/views/login";
 import Logout from "./components/utils/logout";
@@ -19,7 +20,7 @@ import SearchPage from "./components/views/search";
 const router = createBrowserRouter([
   {
     path: "",
-    element: <App />,
+    element: <Navigate to="login" replace />,
   },
   {
     path: "profile",
