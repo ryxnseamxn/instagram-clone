@@ -189,6 +189,18 @@ app.delete('/delete/:post', async (req, res) => {
     }
 });
 
+app.post('/update/:postID', async (req, res) => {
+    const { postID } = req.params;
+    const { caption } = req.body;
+    try {
+        const response = await db.updatePost(postID, caption); 
+        console.log(postID, caption);
+        res.status(200).json({ message: 'Post updated successfully'}); 
+    } catch (err) {
+        res.status(500).json({ error: 'failed to update'})
+    }
+})
+
 app.listen(8000, () => {
     console.log(`Server is running on port 8000.`);
 }); 

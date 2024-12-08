@@ -230,6 +230,22 @@ const deletePost = async (postID) => {
     }
 }; 
 
+const updatePost = async (postID, caption) => {
+    try {
+        const pool = await sql.connect(); // Ensure the connection pool is established
+        const response = await pool.request()
+            .input('caption', sql.NVarChar, caption) // Bind the @caption parameter
+            .input('postID', sql.UniqueIdentifier, postID) // Bind the @postID parameter
+            .query(`UPDATE dbo.Posts SET Caption = @caption WHERE PostID = @postID;`);
+
+        return response;
+    } catch (err) {
+        console.error('Error updating post:', err);
+        throw err;
+    }
+};
+
+
 module.exports = {
     getUsers,
     addUser,
@@ -243,5 +259,6 @@ module.exports = {
     unfollowForLoggedInUser,
     followForLoggedInUser,
     searchUsers, 
-    deletePost
+    deletePost,
+    updatePost
 };

@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 
 const Feed = () => {
     const [posts, setPosts] = useState([]);
-
+    
+    
     useEffect(() => {
         const fetchPosts = async () => {
             try {
@@ -20,10 +21,11 @@ const Feed = () => {
                 console.log('Error fetching feed', err);
             }
         };
-
+        console.log(posts);
+        
         fetchPosts();
     }, []);
-
+    
     return (
         <div className="min-h-screen bg-white pb-20">
             <div className="max-w-sm mx-auto px-4 py-8">

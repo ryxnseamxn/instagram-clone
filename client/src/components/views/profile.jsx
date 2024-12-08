@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../navbar/navbar';
 import Delete from '../button/delete';
+import Edit from '../button/edit';
 
 const Profile = () => {
     const [posts, setPosts] = useState([]);
     const [followers, setFollowers] = useState(0);
     const [following, setFollowing] = useState(0);
     const [username, setUsername] = useState('');
-    const [refresh, setRefresh] = useState(0); // Add refresh counter
+    const [refresh, setRefresh] = useState(0); 
+    const [caption, setCaption] = useState(''); 
 
     const fetchPosts = async () => {
         try {
@@ -32,7 +34,11 @@ const Profile = () => {
     }, [refresh]); // Only depend on refresh counter
 
     const handleDelete = () => {
-        setRefresh(prev => prev + 1); // Increment refresh counter instead of directly calling fetchPosts
+        setRefresh(prev => prev + 1); 
+    };
+
+    const handleEdit = async () => {
+        setRefresh(prev => prev + 1); 
     };
 
     return (
@@ -74,7 +80,10 @@ const Profile = () => {
                                         <span className="font-semibold">{username}</span>
                                         <span>{post.Caption}</span>
                                     </div>
+                                    <div className='flex space-x-1'>
                                     <Delete postId={post.PostID} onUpdate={handleDelete} className="cursor-pointer" />
+                                    <Edit postId={post.PostID} onUpdate={handleEdit} caption={caption} className="cursor-pointer" />  
+                                    </div>
                                 </div>
                             </article>
                         ))
